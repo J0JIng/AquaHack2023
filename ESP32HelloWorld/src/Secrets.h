@@ -1,6 +1,15 @@
 #include <pgmspace.h>
 #define SECRET
 
+/*
+
+OPSEC WARNING !
+
+THIS IS JUST A TEMPLATE
+DO NOT PUSH ANY SENSITIVE INFO
+
+*/
+
 // Change the name of 'Thing' accordingly 
 #define THINGNAME ""                         
  

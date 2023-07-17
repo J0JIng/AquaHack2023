@@ -4,7 +4,7 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include "WiFi.h"
-#include "DHT.h"
+#include <DHT.h>
 
 // Change if necessary
 #define DHTPIN 4     // Digital pin connected to the DHT sensor
@@ -33,6 +33,7 @@ int pHArrayIndex = 0;
 DHT dht(DHTPIN, DHTTYPE);
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
+void messageHandler(char *topic, byte *payload, unsigned int length);
 
 /**
  * Establishes a connection to the AWS IoT platform.

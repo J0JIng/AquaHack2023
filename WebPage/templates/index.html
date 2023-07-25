@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Streaming with Button</title>
+</head>
+<body>
+    <h1>Video Streaming</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <div id="nameInput" style="display: block;">
+        <p>Enter your name to be added to the queue:</p>
+        <button onclick="sendName()">Press Me</button>
+    </div>
+    <div id="feed" style="display: none;">
+        <p>Press the button to feed the fish:</p>
+        <button onclick="feed()">Feed</button>
+    </div>
+    <div id="nameList"></div> <!-- Add a div to display the names -->
+    <script>
+        let nameSubmitted = false;
+        const video = document.getElementById('video');
+        const source = new EventSource('/stream_video');
+
+        // Event handler for receiving video frames
+        source.onmessage = function (event) {
+            video.src = URL.createObjectURL(event.data);
+        };
+
+        // Function to send the name to the server when the button is pressed
+        function sendName() {
+            if (nameSubmitted) {
+                alert('You have already submitted a name!');
+                return;
+            }
+            const name = prompt('Enter your name:');
+            console.log(name);
+            if (name) {
+                fetch('/button_press', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 'name': name }),
+                    credentials:'include' // Include ccookeis in the request
+                })
+                .then(response => response.text())
+              .then(data => {
+                      console.log(data);
+                      if (data === 'Name added to the queue') {
+                  document.getElementById('nameInput').style.display = 'none';
+                  document.getElementById('feed').style.display = 'block';
+                }
+                      if (data === 'Name limit reached') {
+                          alert('Name limit of 10 reached, better luck next time!');
+                      nameSubmitted = true;
+                      }
+            })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+
+        // Function to update the names on the webpage
+        function updateNames() {
+            fetch('/get_names') // Add a new route in Flask to fetch the names from the queue
+                .then(response => response.json())
+                .then(names => {
+                    const nameList = document.getElementById('nameList');
+                    nameList.innerHTML = ''; // Clear the previous content
+
+                    // Add each name to the nameList div
+                    names.forEach(name => {
+                        const nameElement = document.createElement('p');
+                        nameElement.textContent = name;
+                        nameList.appendChild(nameElement);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        function feed() {
+            fetch('/feed', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'action': 'feed' })
+            })
+            .then(response => response.text())
+            .then(data => console.log('Server response:', data))
+            .catch(error => console.error('Error:', error));
+        }
+        // Fetch the names every 5 seconds (adjust the interval as needed)
+        setInterval(updateNames, 500);
+    </script>
+</body>
+</html>
+

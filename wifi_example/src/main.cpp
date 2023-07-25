@@ -3,8 +3,8 @@
 
 
 // put function declarations here:
-const char* ssid = "ASUS_A8_2G";
-const char* password = "CN862583793890";
+const char* ssid = "";
+const char* password = "";
 
 void setup() {
   // put your setup code here, to run once:

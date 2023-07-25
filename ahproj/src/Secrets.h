@@ -1,12 +1,13 @@
-#include <pgmspace.h>
+
+include <pgmspace.h>
 #define SECRET
 
 // Change the name of 'Thing' accordingly 
 #define THINGNAME "ESP32_SENORS_QUE"                         
  
 // Change the following
-const char WIFI_SSID[] = "ASUS_A8_2G";             
-const char WIFI_PASSWORD[] = "CN862583793890";         
+const char WIFI_SSID[] = "";             
+const char WIFI_PASSWORD[] = "";         
 const char AWS_IOT_ENDPOINT[] = "a1z392rdjeimam-ats.iot.us-west-2.amazonaws.com";       
  
 // Amazon Root CA 1

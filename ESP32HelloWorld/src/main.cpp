@@ -8,7 +8,8 @@
 #include <DHT.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
-//#include <MQ135.h>
+#include <LiquidCrystal_I2C.h>
+//#include <Wire.h>
 
 // Constants
 #define AWS_IOT_PUBLISH_TOPIC   "esp32/pub"
@@ -17,12 +18,18 @@
 #define OFFSET 0.00
 #define SAMPLING_INTERVAL 20
 #define ARRAYLENGTH 40
+#define RL 47  // The value of resistor RL is 47K
+#define m -0.263 // Enter calculated Slope
+#define b 0.42 // Enter calculated intercept
+#define Ro 20 // Enter found Ro value
+
 
 // PINS
 #define DHTPIN 4       //  DHT11 sensor
 #define ONE_WIRE_BUS 3 //  DS18B20 temperature sensor
 #define SensorPin 2    //  SEN0161 pH sensor
-#define PIN_MQ135 1   // MQ135 Analog Input Pin
+#define PIN_MQ135 1    // MQ135 Analog Input Pin
+
 
 // SENSOR
 #define SEN0161_CONNECTED 
@@ -37,9 +44,11 @@ float temperature;
 float pHValue;
 float heatIndex;
 float waterTempC;
+float ammonia_ppm;
 unsigned long lastReadTime = 0;
 
-//MQ135 mq135_sensor(PIN_MQ135);
+// Create the lcd object address 0x3F and 16 columns x 2 rows 
+LiquidCrystal_I2C lcd (0x27, 16,2);  
 DHT dht(DHTPIN, DHTTYPE);
 WiFiClientSecure net = WiFiClientSecure();
 PubSubClient client(net);
@@ -47,9 +56,10 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
 // Function declarations
-void display(float humidity, float temperature, float heatIndex, float pH , float waterTempC);
+void display(float humidity, float temperature, float heatIndex, float pH , float waterTempC , float ammonia_ppm);
 float getpHValue();
 float getWaterTempValue();
+float getAmmoniaValue();
 double avergearray(int* arr, int number);
 void connectAWS();
 void publishMessage();
@@ -58,10 +68,16 @@ void messageHandler(char* topic, byte* payload, unsigned int length);
 void setup()
 {
   Serial.begin(115200);
+  connectAWS(); //  Connect to AWS
+  dht.begin(); // Initialize the DHT11 sensor
+  sensors.begin(); // Initialize DS18B20 sensor
+  lcd.init();  // Initialize the LCD connected 
+  lcd.backlight (); // Turn on the backlight on LCD. 
+  //Wire.begin();
+  delay(1000);
   Serial.println("Aqua Sensor starting");
-  connectAWS();
-  dht.begin();
-  sensors.begin();
+  delay(3000);
+  lcd.clear();
 }
 
 void loop()
@@ -75,9 +91,10 @@ void loop()
     heatIndex = dht.computeHeatIndex(temperature, humidity, false);
     pHValue = getpHValue();
     waterTempC = getWaterTempValue();
+    ammonia_ppm = getAmmoniaValue() ;
 
     // Display on Monitor
-    display(humidity, temperature, heatIndex, pHValue ,waterTempC);
+    display(humidity, temperature, heatIndex, pHValue ,waterTempC , ammonia_ppm);
 
     // Transfer data to cloud
     publishMessage();
@@ -89,10 +106,9 @@ void loop()
 }
 
 
-
 /***************** Display  *********************/
 
-void display(float humidity, float temperature, float heatIndex, float pH , float waterTempC)
+void display(float humidity, float temperature, float heatIndex, float pH , float waterTempC , float ammonia_ppm)
 {
   if (isnan(humidity) || isnan(temperature) || isnan(heatIndex))
   {
@@ -110,6 +126,13 @@ void display(float humidity, float temperature, float heatIndex, float pH , floa
     return;
   }
 
+  else if (isnan(ammonia_ppm))
+  {
+    Serial.println(F("Failed to read from Ammonia sensor!"));
+    return;
+  }
+
+
   Serial.print(F("Humidity: "));
   Serial.print(humidity);
   Serial.print(F("%  AmbientTemperature: "));
@@ -119,11 +142,83 @@ void display(float humidity, float temperature, float heatIndex, float pH , floa
   Serial.print(F("°C  Heat index:  "));
   Serial.print(heatIndex);
   Serial.print(F("°C  pH: "));
-  Serial.println(pH);
+  Serial.print(pH);
+  Serial.print(F("  Ammonia : "));
+  Serial.print(ammonia_ppm);
+  Serial.println("ppm");
+
+  // Clear the LCD display
+  lcd.clear();
+
+  // first flash
+  lcd.setCursor(0, 0);
+  lcd.print("Humidity: ");
+  lcd.print(humidity);
+  lcd.print("%");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Temperature: ");
+  lcd.print(temperature);
+  lcd.print("C");
+
+  delay(3000);
+  lcd.clear();
+
+  // Second flash
+  lcd.setCursor(0, 0);
+  lcd.print("Heat Index: ");
+  lcd.print(heatIndex);
+  lcd.print(" C ");
+
+  lcd.setCursor(0, 1);
+  lcd.print("pH: ");
+  lcd.print(pH);
+
+  delay(3000);
+  lcd.clear();
+
+  // Third flash
+  lcd.setCursor(0, 0);
+  lcd.print("Water Temp: ");
+  lcd.print(waterTempC);
+  lcd.print("C");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Ammonia (ppm): ");
+  lcd.print(ammonia_ppm);
+  lcd.print("ppm");
+
+  delay(3000);
+  lcd.clear();
+
 }
 
 /**************** Ammonia Sensor  *****************/
+float getAmmoniaValue() 
+{
+  float ppm;
 
+#ifdef MQ135_CONNECTED 
+
+  float VRL; // Voltage drop across the MQ sensor
+  float Rs; // Sensor resistance at gas concentration
+  float ratio; // Define variable for ratio
+
+  VRL = analogRead(MQ_sensor) * (5.0 / 1023.0); // Measure the voltage drop and convert to 0-5V
+  Rs = ((5.0 * RL) / VRL) - RL; // Use the formula to get Rs value
+  ratio = Rs / Ro; // Find the ratio Rs/Ro
+
+  ppm = pow(10, ((log10(ratio) - b) / m)); // Use the formula to calculate ppm
+
+#else 
+
+  int randomValue = random(10, 20); // Generate a random value between 10 and 20
+  ppm = randomValue / 100.0; // Scale the integer to a floating-point value between 0.1 and 0.2
+
+#endif
+
+  return ppm; // Return ammonia concentration in ppm
+}
 
 /************ Water temperature Sensor ************/
 float getWaterTempValue()
@@ -135,7 +230,7 @@ float getWaterTempValue()
   waterTempC = sensors.getTempCByIndex(0);
   
 #else
-  int randomValue = random(250, 270); // Generate a random value between 250 and 270
+  int randomValue = random(250, 270); // Generate a random value between 250 and 269
   waterTempC = randomValue / 10.0; // Scale the integer to a floating-point value between 25.0 and 26.9
 
 #endif
@@ -161,7 +256,7 @@ float getpHValue()
 
 #else
   // Generate random pH values
-  int randomValue = random(67, 73); // Generate a random integer between 67 and 73
+  int randomValue = random(67, 73); // Generate a random integer between 0 and 140
   pHValue = randomValue / 10.0; // Scale the integer to a floating-point pH value between 0 and 14
 
 #endif
@@ -298,6 +393,7 @@ void publishMessage()
   doc["pH"] = pHValue;
   doc["HeatIndex"] = heatIndex;
   doc["waterTempC"] = waterTempC;
+  doc["Ammonia"] = ammonia_ppm;
   
   char jsonBuffer[512];
   serializeJson(doc, jsonBuffer); // print to client

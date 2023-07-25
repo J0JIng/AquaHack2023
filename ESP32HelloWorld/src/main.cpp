@@ -135,7 +135,7 @@ float getWaterTempValue()
   waterTempC = sensors.getTempCByIndex(0);
   
 #else
-  int randomValue = random(250, 270); // Generate a random value between 250 and 269
+  int randomValue = random(250, 270); // Generate a random value between 250 and 270
   waterTempC = randomValue / 10.0; // Scale the integer to a floating-point value between 25.0 and 26.9
 
 #endif
@@ -161,7 +161,7 @@ float getpHValue()
 
 #else
   // Generate random pH values
-  int randomValue = random(67, 73); // Generate a random integer between 0 and 140
+  int randomValue = random(67, 73); // Generate a random integer between 67 and 73
   pHValue = randomValue / 10.0; // Scale the integer to a floating-point pH value between 0 and 14
 
 #endif

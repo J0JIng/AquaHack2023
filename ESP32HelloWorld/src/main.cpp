@@ -16,7 +16,7 @@
 #define AWS_IOT_SUBSCRIBE_TOPIC "esp32/sub"
 #define DHTTYPE DHT11   // DHT 11
 #define OFFSET 0.00
-#define SAMPLING_INTERVAL 20
+#define SAMPLING_INTERVAL 10000
 #define ARRAYLENGTH 40
 #define RL 47  // The value of resistor RL is 47K
 #define m -0.263 // Enter calculated Slope

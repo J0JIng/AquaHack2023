@@ -1,12 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
+<body<head>
     <title>Video Streaming with Button</title>
-</head>
-<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        video {
+            display: block;
+            margin: 0 auto;
+            width: 640px;
+            height: 480px;
+            background-color: #ccc;
+        }
+
+        #nameInput,
+        #feed {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #nameInput p,
+        #feed p {
+            font-size: 18px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #nameList {
+            margin-top: 30px;
+        }
+
+        #nameList p {
+            font-size: 16px;
+            margin: 5px;
+          }
+
+        #iframeWrapper,
+        #videoWrapper {
+            display: none;
+        }
+    </style>
+</head>>
     <h1>Video Streaming</h1>
-    <video id="video" width="640" height="480" autoplay></video>
-    <div id="nameInput" style="display: block;">
+    <button onclick="swapVideo()">Embedded Video</button> 
+    <div id="iframeWrapper">
+      <iframe width="1850" height="799" src="https://www.youtube.com/embed/TiDiMYk6gS4" title="Amazing! Feeding Pond Fish – Never feed too much food to your fish!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    
+    <div id="videoWrapper">
+      <video id="video" width="640" height="480" autoplay></video>
+    </div>
+
+      <div id="nameInput" style="display: block;">
         <p>Enter your name to be added to the queue:</p>
         <button onclick="sendName()">Press Me</button>
     </div>
@@ -16,13 +81,14 @@
     </div>
     <div id="nameList"></div> <!-- Add a div to display the names -->
     <script>
+        let videoStream = false;
         let nameSubmitted = false;
         const video = document.getElementById('video');
         const source = new EventSource('/stream_video');
 
         // Event handler for receiving video frames
         source.onmessage = function (event) {
-            video.src = URL.createObjectURL(event.data);
+          video.src = URL.createObjectURL(event.data);
         };
 
         // Function to send the name to the server when the button is pressed
@@ -88,8 +154,22 @@
             .catch(error => console.error('Error:', error));
         }
         // Fetch the names every 5 seconds (adjust the interval as needed)
+
+        function swapVideo() {
+          if (videoStream) {
+            document.getElementById('iframeWrapper').style.display = 'block';
+            document.getElementById('videoWrapper').style.display = 'none';
+            console.log('swapped to iframe');
+          } else {
+            document.getElementById('iframeWrapper').style.display = 'none';
+            document.getElementById('videoWrapper').style.display = 'block';
+            console.log('swapped to video');
+          }
+          videoStream = !videoStream;
+        };
+
         setInterval(updateNames, 500);
-    </script>
+        </script>
 </body>
 </html>
 

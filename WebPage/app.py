@@ -1,14 +1,12 @@
 from flask import Flask, Response, render_template, request, jsonify, session
-import json
 import sys
 import requests
-import asyncio
-import threading
+import time
 
 # In the future to scale up the project, we can use a database to store all the ESP32-CAM IP addresses
 # each users can only see one stream in each instance, but they can switch between streams
 # to do so the ESP32_IP would be sent via the POST request from the frontend
-ESP32_IP = "127.0.0.1"; # Enter the IP address of your ESP32-CAM here
+ESP32_IP = "192.168.86.137"; # Enter the IP address of your ESP32-CAM here
 # Create the Flask object for the application
 app = Flask(__name__)
 
@@ -70,11 +68,15 @@ def button_press():
 # Route to handle the "feed" button press from the frontend
 @app.route('/feed', methods=['POST'])
 def feed():
+    response = requests.post(f'http://{ESP32_IP}/feed') # Send a POST request to the ESP32-CAM
+    print("Status:" , response.status_code, file=sys.stderr)
     if 'name' in session:
         # Allow the user to press the "feed" button since their name is in the session
         response = requests.post(f'http://{ESP32_IP}/feed') # Send a POST request to the ESP32-CAM
+        print("Status:" , response.status_code, file=sys.stderr)
         if response.status_code != 200:
             print(name_submitted, file=sys.stderr)
+            #clear_session();
             return "Feeding the fish"
         else:
 
@@ -84,10 +86,12 @@ def feed():
         print(name_submitted, file=sys.stderr)
         return "You need to submit your name first"
 
+
+
 def clear_session():
     time.sleep(60)
     session.pop('name', None)
     name_submitted.clear()
 
 if __name__ == '__main__':
-    app.run(app, host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)

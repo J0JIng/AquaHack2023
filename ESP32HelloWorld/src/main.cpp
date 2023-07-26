@@ -9,7 +9,7 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <LiquidCrystal_I2C.h>
-//#include <Wire.h>
+#include <Wire.h>
 
 // Constants
 #define AWS_IOT_PUBLISH_TOPIC   "esp32/pub"
@@ -32,8 +32,8 @@
 
 
 // SENSOR
-#define SEN0161_CONNECTED 
-#define DHT11_CONNECTED 
+//#define SEN0161_CONNECTED 
+//#define DHT11_CONNECTED 
 
 //#define DS18B20_CONNECTED  
 //#define MQ135_CONNECTED 
@@ -68,7 +68,7 @@ void messageHandler(char* topic, byte* payload, unsigned int length);
 void setup()
 {
   Serial.begin(115200);
-  connectAWS(); //  Connect to AWS
+  //connectAWS(); //  Connect to AWS
   dht.begin(); // Initialize the DHT11 sensor
   sensors.begin(); // Initialize DS18B20 sensor
   lcd.init();  // Initialize the LCD connected 
@@ -86,9 +86,20 @@ void loop()
   if (millis() - lastReadTime >= SAMPLING_INTERVAL)
   {
     // Reading variables
+    #ifdef DHT11_CONNECTED 
+    
     humidity = dht.readHumidity();
     temperature = dht.readTemperature();
     heatIndex = dht.computeHeatIndex(temperature, humidity, false);
+    
+    #else
+
+    humidity = random(10, 15); 
+    temperature = random(20, 25);
+    heatIndex = random(20, 25);
+
+    #endif 
+    
     pHValue = getpHValue();
     waterTempC = getWaterTempValue();
     ammonia_ppm = getAmmoniaValue() ;
@@ -97,8 +108,8 @@ void loop()
     display(humidity, temperature, heatIndex, pHValue ,waterTempC , ammonia_ppm);
 
     // Transfer data to cloud
-    publishMessage();
-    client.loop();
+    //publishMessage();
+    //client.loop();
 
     // Update the last pH reading time
     lastReadTime = millis();

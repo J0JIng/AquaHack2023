@@ -55,18 +55,20 @@
             margin: 5px;
           }
 
-        #iframeWrapper,
+        #iframeWrapper
+        { display: none;  },
         #videoWrapper {
-            display: none;
+            display: block;
         }
     </style>
 </head>>
     <h1>Video Streaming</h1>
     <button onclick="swapVideo()">Embedded Video</button> 
     <div id="iframeWrapper">
-      <iframe width="1850" height="799" src="https://www.youtube.com/embed/TiDiMYk6gS4" title="Amazing! Feeding Pond Fish – Never feed too much food to your fish!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="1690" height="799" src="https://www.youtube.com/embed/TiDiMYk6gS4" title="Amazing! Feeding Pond Fish – Never feed too much food to your fish!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
-    
+
+
     <div id="videoWrapper">
       <video id="video" width="640" height="480" autoplay></video>
     </div>
@@ -80,6 +82,8 @@
         <button onclick="feed()">Feed</button>
     </div>
     <div id="nameList"></div> <!-- Add a div to display the names -->
+
+    <iframe src='https://g-011b02b773.grafana-workspace.us-west-2.amazonaws.com/dashboard/snapshot/waj2zuSAk6j9QSo07CDOmUinFhmCK34x' width="1690" height="800" frameborder="0"></iframe>
     <script>
         let videoStream = false;
         let nameSubmitted = false;

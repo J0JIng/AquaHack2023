@@ -71,17 +71,17 @@ void feedFish() {
   myservo.attach(servoPin, 1000, 2000);
   Serial.println("RUNNING");
 
-  for (int angle = 0; angle <=  180; angle += 1) { // goes from 0 degrees to 1000 degrees
+  for (int angle = 0; angle <=  180; angle += 3) { // goes from 0 degrees to 1000 degrees
 		// in steps of 1 degree
 		myservo.write(angle);    // tell servo to go to position in variable 'pos'
-		delay(15);             // waits 15ms for the servo to reach the position
+		delay(4);             // waits 15ms for the servo to reach the position
 
   }
 
-    for (int angle = 180; angle >=  0; angle -= 1) { // goes from 0 degrees to 1000 degrees
+    for (int angle = 180; angle >=  0; angle -= 3) { // goes from 0 degrees to 1000 degrees
 		// in steps of 1 degree
 		myservo.write(angle);    // tell servo to go to position in variable 'pos'
-		delay(15);             // waits 15ms for the servo to reach the position
+		delay(4);             // waits 15ms for the servo to reach the position
 
   }
 

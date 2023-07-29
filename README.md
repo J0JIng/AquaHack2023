@@ -22,7 +22,7 @@ Automation features are integrated to reduce manual workload and ensure consiste
 3. Data Analysis:
 The collected data is analyzed to gain insights into the system's performance, enabling informed decision-making for improvements.
 
-### CloudSensor Prototype:
+### [CloudSensor Prototype]():
 
 Our working proof of concept includes the integration of three key sensors in the prototype, each playing a crucial role in our comprehensive monitoring system. The SEN0161 sensor enables accurate pH measurement, providing valuable insights into the water's acidity or alkalinity. To monitor water temperature variations, we have incorporated the DS18B20 sensor, ensuring we track the aquatic environment effectively. Moreover, we have implemented a color-changing sticker that indicates the concentration of free ammonia in parts per million (ppm), allowing us to assess water quality easily.
 
@@ -38,7 +38,7 @@ To visualize and interpret the data, we utilize Grafana, a powerful analytics an
 
 Furthermore, to ensure prompt action in critical scenarios, we have implemented alert mechanisms that trigger notifications when specific threshold values are exceeded. This enables swift responses to potential issues, maintaining the system's health and productivity.
 
-### AquaFeeder 
+### AquaFeeder Prototype:
 
 [how it works ...]
 

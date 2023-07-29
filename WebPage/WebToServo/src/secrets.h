@@ -11,5 +11,5 @@ DO NOT PUSH ANY SENSITIVE INFO
 */                   
 
 // Change the following
-const char WIFI_SSID[] = "HUAWEI-P30";             
-const char WIFI_PASSWORD[] = "qwerty12345";      
+const char WIFI_SSID[] = "";             
+const char WIFI_PASSWORD[] = "";      

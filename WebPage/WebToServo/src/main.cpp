@@ -30,7 +30,7 @@
 
 //const char* ssid = ;
 //const char* password = ;
-//const char* serverUrl = "http://192.168.86.117:5000/receive_video"; // Update with your server IP
+//const char* serverUrl = "http://:5000/receive_video"; // Update with your server IP
 
 unsigned long previousMillis = 0;
 const long interval = 1000;

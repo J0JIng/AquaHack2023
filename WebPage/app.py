@@ -6,7 +6,7 @@ import time
 # In the future to scale up the project, we can use a database to store all the ESP32-CAM IP addresses
 # each users can only see one stream in each instance, but they can switch between streams
 # to do so the ESP32_IP would be sent via the POST request from the frontend
-ESP32_IP = "192.168.43.153"; # Enter the IP address of your ESP32-CAM here
+ESP32_IP = ""; # Enter the IP address of your ESP32-CAM here
 # Create the Flask object for the application
 app = Flask(__name__)
 

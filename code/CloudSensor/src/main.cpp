@@ -41,14 +41,6 @@ float heatIndex;
 float waterTempC;
 float ammonia_ppm;
 unsigned long lastReadTime = 0;
-const int ledPin = 23;
-
-//Random Generation 
-float baselineAmmoniaValue = 0;
-float baselineWaterTempValue = 0;
-float baselinepHValue = 0;
-const float spikeProbability = 0.05;    // Probability of a spike occurring (adjust as needed)
-const float spikeIntensity = 1.5;     // Maximum value of the spike (adjust as needed)
 
 // Create the lcd object address 0x3F and 16 columns x 2 rows 
 LiquidCrystal_I2C lcd (0x27, 16,2);  

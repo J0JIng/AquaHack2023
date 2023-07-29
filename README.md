@@ -24,7 +24,11 @@ The collected data is analyzed to gain insights into the system's performance, e
 
 ### CloudSensor Prototype:
 
-For our proof of concept, we have equipped the prototype with three key sensors: SEN0161 for pH measurement, DS18B20 for water temperature, and MQ135 for NH3 detection. These sensors collectively provide crucial information about the aquatic and plant environments, forming the foundation of our monitoring system.
+Our proof of concept includes the integration of three key sensors in the prototype, each playing a crucial role in our comprehensive monitoring system. The SEN0161 sensor enables accurate pH measurement, providing valuable insights into the water's acidity or alkalinity. To monitor water temperature variations, we have incorporated the DS18B20 sensor, ensuring we track the aquatic environment effectively. Moreover, we have implemented a color-changing sticker that indicates the concentration of free ammonia in parts per million (ppm), allowing us to assess water quality easily.
+
+To complement this sensor array, we plan to use the ESP32 CAM to monitor the ammonia sticker actively. The ESP32 CAM will capture snapshots, providing visual information about the ammonia sticker's changes and helping us understand the dynamics of ammonia concentration over time.
+
+Additionally, we may attach other peripheral sensors, such as lux sensors, to gather a variety of readings and further enhance our understanding of both aquatic and plant environments. These sensors collectively form the foundation of our monitoring system, empowering us to make informed decisions and take necessary actions to maintain optimal conditions for aquatic life and plants.
 
 The ESP32 microcontroller serves as the central processing unit, efficiently gathering sensor data. To transmit this data to the cloud, we employ the MQTT protocol, a lightweight messaging protocol ideal for IoT applications. Leveraging the robust infrastructure of Amazon Web Services (AWS), we utilize AWS IoT Core as the MQTT broker, ensuring secure and reliable data communication between the prototype and the cloud.
 

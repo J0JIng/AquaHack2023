@@ -11,6 +11,8 @@ Aquaponics is a sustainable agricultural system that combines aquaculture with h
 
 In this proposal, we outline our vision to enhance the social impact of our Aquaponics Monitoring System, CloudSensor, by also introducing AquaFeeder focused on positively contributing to the community, with a particular emphasis on children in hospitals. This aims to improve the well-being of the children, promote environmental awareness, and offer valuable educational experiences.
 
+With this two-pronged approach, we aim to not only empower local farmers and promote sustainable agriculture but also extend our impact to the broader community, especially children in hospitals who could benefit greatly from the therapeutic and educational aspects of aquaponics.
+
 ### Key Objectives:
 
 1. Real-time Monitoring:

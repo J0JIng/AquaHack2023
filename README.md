@@ -40,7 +40,7 @@ To visualize and interpret the data, we utilize Grafana, a powerful analytics an
 
 Furthermore, to ensure prompt action in critical scenarios, we have implemented alert mechanisms that trigger notifications when specific threshold values are exceeded. This enables swift responses to potential issues, maintaining the system's health and productivity.
 
-### {AquaFeeder Prototype}(https://github.com/LicongHuang/AquaHack2023/tree/main/WebPage):
+### [AquaFeeder Prototype](https://github.com/LicongHuang/AquaHack2023/tree/main/WebPage):
 
 As an extension of the Aquaponics Monitoring System, CloudSensor, the AquaFeeder prototype aims to enhance the social impact of the project by introducing a unique and inclusive feature focused on positively contributing to the community, especially children in hospitals. AquaFeeder is designed to offer a therapeutic and educational experience for children by allowing them to interact with the aquaponics system through fish feeding. This engagement can improve the well-being of the children, promote environmental awareness, and provide valuable educational opportunities.
 

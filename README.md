@@ -40,7 +40,19 @@ To visualize and interpret the data, we utilize Grafana, a powerful analytics an
 
 Furthermore, to ensure prompt action in critical scenarios, we have implemented alert mechanisms that trigger notifications when specific threshold values are exceeded. This enables swift responses to potential issues, maintaining the system's health and productivity.
 
-### AquaFeeder Prototype:
+### {AquaFeeder Prototype}():
 
-[how it works ...]
+As an extension of the Aquaponics Monitoring System, CloudSensor, the AquaFeeder prototype aims to enhance the social impact of the project by introducing a unique and inclusive feature focused on positively contributing to the community, especially children in hospitals. AquaFeeder is designed to offer a therapeutic and educational experience for children by allowing them to interact with the aquaponics system through fish feeding. This engagement can improve the well-being of the children, promote environmental awareness, and provide valuable educational opportunities.
+
+To ensure fairness and manage patient participation, AquaFeeder incorporates a queue system. A maximum of 10 people can join the queue to feed the fish at any given time. In cases where the queue is full, AquaFeeder employs a random lucky draw to select the next participant. This adds an element of surprise and anticipation, making the experience even more exciting for the children. Otherwise, if the queue is empty, AquaFeeder automatically dispenses the feed to ensure the fish are adequately nourished. This automated process ensures the well-being of the aquatic life, even when there are no participants in the queue.
+
+The AquaFeeder system comprises several essential components that facilitate an interactive and engaging experience for patients, particularly children in hospitals. These components work in harmony to ensure a seamless and enjoyable fish-feeding process while promoting environmental awareness and education.
+
+At the heart of AquaFeeder lies the Feeder Trigger, a user-friendly mechanism that patients can effortlessly press to initiate the fish-feeding process. This trigger is intelligently connected to the ESP32 microcontroller, which acts as the central coordinator, ensuring the smooth execution of the feeding activity.
+
+Accessible through a user-friendly Front End interface, AquaFeeder allows patients to immerse themselves in the aquatic world. They can marvel at the live video stream of the fish and eagerly participate in the feeding queue by simply pressing the designated button on the interface.
+
+Behind the scenes, the Web Server efficiently manages the queue system, handles user requests, and even orchestrates the random lucky draw process when needed. This meticulous organization ensures fair and inclusive opportunities for all participants.
+
+Driving the visual experience is the ESP32 (CAM) board, which diligently connects the feeder trigger and the camera module. As the patients engage in fish feeding, the ESP32 (CAM) captures delightful snapshots of the fish during the process, creating a beautiful visual record of their interactions with the aquatic life.
 

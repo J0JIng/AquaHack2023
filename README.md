@@ -3,6 +3,7 @@
 ![IOT](https://img.shields.io/badge/IOT-F32D2D?style=for-the-badge&logoColor=white)
 ![Microcontroller](https://img.shields.io/badge/Microcontroller-1976D2?style=for-the-badge&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Espressif](https://img.shields.io/badge/espressif-E7352C.svg?style=for-the-badge&logo=espressif&logoColor=white)
 ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 
